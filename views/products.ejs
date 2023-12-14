@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./partials/headInfo') %>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+
+    <% if (user && user.role === 'admin') { %>
+      <div class="add-product">
+        <button>
+          <a href="/products/create">Add Product</a>
+        </button>
+      </div>
+    <% } %>
+    <div class="body-wrapper">
+      <div class="category-section">
+        <h2>Products</h2>
+  
+        <div class="body-cont">
+          <div class="products-wrap">
+            <% allProducts.forEach(product => { %>
+            <div class="product">
+              <a class="link" href="/products/<%= product._id %>">
+                <img
+                  class="product-img"
+                  src="<%= product.image %>"
+                  alt="<%= product.title %>"
+                />
+                <h3 class="product-name"><%= product.title %></h3>
+                <p class="product-description"><%= product.description %></p>
+                <p class="amount">R<%= product.price %></p>
+              </a>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+  
+      <div class="category-section">
+        <h2>Best Selling</h2>
+  
+        <div class="body-cont">
+          <div class="products-wrap">
+            <% bestSellingProducts.forEach(product => { %>
+            <div class="product">
+              <a class="link" href="/products/<%= product._id %>">
+                <img
+                  class="product-img"
+                  src="<%= product.image %>"
+                  alt="<%= product.title %>"
+                />
+                <h3 class="product-name"><%= product.title %></h3>
+                <p class="product-description"><%= product.description %></p>
+                <p class="amount">R<%= product.price %></p>
+              </a>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+  
+      <div class="category-section">
+        <h2>Home</h2>
+  
+        <div class="body-cont">
+          <div class="products-wrap">
+            <% homeProducts.forEach(product => { %>
+            <div class="product">
+              <a class="link" href="/products/<%= product._id %>">
+                <img
+                  class="product-img"
+                  src="<%= product.image %>"
+                  alt="<%= product.title %>"
+                />
+                <h3 class="product-name"><%= product.title %></h3>
+                <p class="product-description"><%= product.description %></p>
+                <p class="amount">R<%= product.price %></p>
+              </a>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+  
+      <div class="category-section">
+        <h2>Car Essentials</h2>
+  
+        <div class="body-cont">
+          <div class="products-wrap">
+            <% carProducts.forEach(product => { %>
+            <div class="product">
+              <a class="link" href="/products/<%= product._id %>">
+                <img
+                  class="product-img"
+                  src="<%= product.image %>"
+                  alt="<%= product.title %>"
+                />
+                <h3 class="product-name"><%= product.title %></h3>
+                <p class="product-description"><%= product.description %></p>
+                <p class="amount">R<%= product.price %></p>
+              </a>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('./partials/footer') %>
+  </body>
+
+
+  <script src="../js/part.js"></script>
+</html>

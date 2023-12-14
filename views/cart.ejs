@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./partials/headInfo') %>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+    <div class="product-cover">
+      <div class="cart-cont">
+        <div class="cart-wrap">
+          <% if (carts.length === 0) { %>
+
+          <div class="empty-cart">
+            <h2>Your cart is empty!!</h2>
+            <button><a href="./products">Continue shopping</a></button>
+          </div>
+
+          <% } else { %>
+          <div class="available-cart">
+            <div class="cart-items">
+              <h1 class="cart-headline">Shopping cart</h1>
+              <% carts.forEach(cart => { %>
+              <div class="cartItem" id="cartItem_<%= cart._id %>">
+                <div class="a-link">
+                  <img
+                    class="cart-img"
+                    src="<%= cart.image %>"
+                    alt="<%= cart.title %>"
+                  />
+                  <div class="cart-props">
+                    <p class="cart-name"><%= cart.title %></p>
+                    <div class="input-wrap">
+                      Quantity:
+                      <button
+                        class="quantity-control"
+                        onclick="decrementQuantity(this, '<%= cart._id %>', <%= cart.price %>)"
+                      >
+                        -
+                      </button>
+                      <input
+                        type="number"
+                        name="quantity"
+                        value="<%= cart.quantity %>"
+                        class="quantity-input"
+                        min="1"
+                        oninput="updateTotalPrice(this, '<%= cart._id %>', <%= cart.price %>)"
+                        onchange="updateServer(this, '<%= cart._id %>')"
+                      />
+                      <button
+                        class="quantity-control"
+                        onclick="incrementQuantity(this, '<%= cart._id %>', <%= cart.price %>)"
+                      >
+                        +
+                      </button>
+                    </div>
+                    <h3
+                      class="amount cart-price"
+                      id="totalPrice_<%= cart._id %>"
+                    >
+                      R <%= cart.price * cart.quantity %>
+                    </h3>
+
+                    <div
+                      class="delete-control"
+                      onclick="removeCartItem('<%= cart._id %>')"
+                    >
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <% }) %>
+            </div>
+          </div>
+          <div class="checkout-wrap">
+            <h2 class="summary-title">Cart Summary</h2>
+            <span class="total-cont">Total:</span>
+            <span class="total-price" id="totalPrice">
+              R <%= totalCheckoutAmount %>
+            </span>
+            <button class="checkout-link">
+              <a href="checkout-order">Checkout</a>
+            </button>
+          </div>
+          <% } %>
+        </div>
+      </div>
+
+      <%- include('./partials/footer') %>
+    </div>
+    <script src="../js/part.js"></script>
+    <script>
+      function incrementQuantity(input, cartId, cartPrice) {
+        const quantityInput =
+          input.parentElement.querySelector(".quantity-input");
+        quantityInput.stepUp();
+        updateTotalAndServer(quantityInput, cartId, cartPrice);
+      }
+
+      function decrementQuantity(input, cartId, cartPrice) {
+        const quantityInput =
+          input.parentElement.querySelector(".quantity-input");
+        quantityInput.stepDown();
+        updateTotalAndServer(quantityInput, cartId, cartPrice);
+      }
+
+      function updateTotalAndServer(input, cartId, cartPrice) {
+        updateTotalPrice(input, cartId, cartPrice);
+        updateServer(input, cartId);
+      }
+
+      async function updateTotalPrice(input, cartId, originalPrice) {
+        const quantity = input.value;
+
+        try {
+          const response = await fetch(`/cart/update/${cartId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ quantity }),
+          });
+
+          if (response.ok) {
+            const { cart: updatedCart, totalCheckoutAmount } =
+              await response.json();
+
+            const totalPriceElement = document.getElementById(
+              `totalPrice_${cartId}`
+            );
+            console.log("totalCheckoutAmount:", totalCheckoutAmount);
+
+            totalPriceElement.innerText = `R${
+              updatedCart.price * updatedCart.quantity
+            }`;
+
+            // Update the totalCheckoutAmount on the page
+            document.getElementById(
+              "totalPrice"
+            ).innerText = `R${totalCheckoutAmount}`;
+
+            window.location.reload();
+          } else {
+            console.error("Failed to update server:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Error during fetch:", error);
+        }
+      }
+
+      async function updateServer(input, cartId) {
+        const quantity = input.value;
+
+        console.log("the quantity is ", quantity);
+
+        try {
+          const response = await fetch(`/cart/update/${cartId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ quantity }),
+          });
+
+          if (response.ok) {
+            window.location.reload();
+            // Fetch and update the cart data after successful update
+            const responseData = await response.json();
+
+            document.getElementById(
+              "totalPrice"
+            ).innerText = `R${responseData.totalCheckoutAmount}`;
+
+            // Update the number of items in the cart
+            document.getElementById("itemNum").innerText =
+              responseData.totalItems;
+
+            // Check the responseData for success or any other indicators
+            window.location.reload();
+          } else {
+            console.error("Failed to update server:", response.statusText);
+          }
+        } catch (error) {
+          console.error("Error during fetch:", error);
+        }
+      }
+
+      async function removeCartItem(cartId) {
+        try {
+          console.log("remove button clicked");
+          const response = await fetch(`/cart/remove/${cartId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          const { totalCheckoutAmount } = await response.json();
+
+          // Update the totalCheckoutAmount on the page
+          document.getElementById(
+            "totalPrice"
+          ).innerText = `R${totalCheckoutAmount}`;
+
+          // Now you can reload the page or update the DOM as needed
+          window.location.reload();
+        } catch (error) {
+          console.error("Error during fetch:", error);
+        }
+      }
+    </script>
+  </body>
+</html>

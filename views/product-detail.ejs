@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/headInfo') %>
+  </head>
+  <body>
+    <div class="product-cover">
+      <%- include('./partials/nav') %>
+
+      <div class="product-wrapper">
+        <div class="products-wrap detail">
+          <div class="product-content item1 prd">
+            <a class="prId" href="<%= product._id %>">
+              <img
+                class="product-image image-pro"
+                src="<%= product.image %>"
+                alt="<%= product.title %>"
+              />
+            </a>
+            <div class="product-info">
+              <h2 class="product-name"><%= product.title %></h2>
+              <p class="product-description font"><%= product.description %></p>
+              <p class="amount">R<%= product.price %></p>
+              <p class="impt">Delivered 3-5 working days</p>
+
+              <div class="add-to-cart">
+                <a href="/cart/add-to-cart/<%= product._id %>">
+                  <button>Add to cart</button>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%- include('./partials/footer') %>
+    </div>
+  </body>
+  <script src="../js/part.js"></script>
+  <script>
+    function disableButton(button) {
+      // Disable the button
+      button.disabled = true;
+
+      // Optionally, you can change the button text
+      button.innerText = "Added to cart";
+    }
+  </script>
+</html>

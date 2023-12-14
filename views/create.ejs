@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/headInfo') %>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+
+    <form action="/products/create-product" method="POST">
+      <h2>Post new product</h2>
+
+      <label for="title">Title</label>
+      <input type="text" name="title" required />
+      <div class="title error"></div>
+
+      <label for="Image">Image</label>
+      <input type="file" name="image" accept="image/*" required />
+      <div class="image error"></div>
+
+      <label for="category">Category</label>
+      <select name="category" required>
+        <option value="Best-selling">Best-selling</option>
+        <option value="Home">Home</option>
+        <option value="Car-essentials">Car Essentials</option>
+      </select>
+      <div class="category error"></div>
+
+      <label for="description">Description</label>
+      <textarea name="" id="" cols="30" rows="10"></textarea>
+      <div class="description error"></div>
+
+      <label for="price">Price</label>
+      <input type="text" name="price" required />
+      <div class="price error"></div>
+
+      <button>Post</button>
+    </form>
+
+    <script>
+      const form = document.querySelector("form");
+      const titleError = document.querySelector(".title.error");
+      const imageError = document.querySelector(".image.error");
+      const descriptionError = document.querySelector(".description.error");
+      const priceError = document.querySelector(".price.error");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        // Reset errors
+        titleError.textContent = "";
+        imageError.textContent = "";
+        descriptionError.textContent = "";
+        priceError.textContent = "";
+
+        // Get form data
+        const formData = new FormData(form);
+
+        try {
+          const res = await fetch("/products/create-product", {
+            method: "POST",
+            body: formData,
+            headers: { "Content-Type": "application/json" },
+          });
+
+          const data = await res.json();
+          console.log(data);
+
+          if (data.errors) {
+            titleError.textContent = data.errors.title;
+            imageError.textContent = data.errors.image;
+            descriptionError.textContent = data.errors.description;
+            priceError.textContent = data.errors.price;
+          }
+
+          data.role === "admin"
+            ? location.assign("/admin/products")
+            : location.assign("/products");
+        } catch (err) {
+          console.log(err);
+        }
+      });
+    </script>
+
+    <%- include('./partials/footer') %>
+  </body>
+  <script src="../js/part.js"></script>
+</html>
