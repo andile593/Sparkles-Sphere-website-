@@ -1,7 +1,9 @@
 const User = require("../models/userModel");
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const nodemailer = require('nodemailer');
 
-// handle errors
+
 const handleErrors = (err) => {
   console.log(err.message, err.code);
   let errors = { email: '', password: '' };
@@ -88,3 +90,59 @@ module.exports.logout_get = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
   res.redirect('/');
 }
+
+
+const sendResetEmail = async (email, resetToken) => {
+  // Create a Nodemailer transporter
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'andilemhlanga16@gmail.com', // replace with your email
+      pass: 'zbnn qzpu qmoc ndpq', // replace with your email password
+    },
+  });
+
+  // Define the email content
+  const mailOptions = {
+    from: 'andilemhlanga16@gmail.com', // replace with your email
+    to: email,
+    subject: 'Password Reset',
+    text: `Click the following link to reset your password: ${resetToken}`,
+  };
+
+  // Send the email
+  await transporter.sendMail(mailOptions);
+};
+
+
+module.exports.forgotPassword_get = (req, res) => {
+  res.render('forgot-password');
+};
+
+
+module.exports.forgotPassword_post = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (user) {
+      const resetToken = crypto.randomBytes(32).toString('hex');
+      const resetTokenExpires = Date.now() + 3600000; 
+
+      user.resetToken = resetToken;
+      user.resetTokenExpires = resetTokenExpires;
+
+      await user.save();
+
+      await sendResetEmail(email, resetToken);
+
+      res.json({ message: 'Password reset link sent successfully' });
+    } else {
+      res.status(404).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};

@@ -1168,6 +1168,7 @@ label {
   margin: 0 auto;
   display: flex;
   justify-content: center;
+  width: 45%;
 }
 
 .error {

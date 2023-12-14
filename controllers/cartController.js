@@ -285,7 +285,7 @@ const finalOrder = async (req, res) => {
       service: "gmail",
       auth: {
         user: "andilemhlanga16@gmail.com", // Replace with your Gmail email address
-        pass: "zbnn qzpu qmoc ndpq", // Replace with the App Password you generated
+        pass: "zbnn qzpu qmoc ndpq", 
       },
     });
 

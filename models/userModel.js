@@ -44,6 +44,8 @@ const userSchema = new mongoose.Schema({
       type: String,
     },
   },
+  resetToken: String,
+  resetTokenExpires: Date,
   role: {
     type: String,
     enum: ['user', 'admin'], // Add other roles as needed
