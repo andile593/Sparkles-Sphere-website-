@@ -35,10 +35,6 @@ app.use(
 );
 app.use(cookieParser());
 
-app.get('/', (req, res) => {
-  res.send('app is running')
-})
-
 app.use("/", pagesRoutes);
 app.use("/", productRoutes);
 app.use("/", cartRoutes);
