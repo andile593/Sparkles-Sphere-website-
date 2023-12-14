@@ -205,13 +205,15 @@ const postAddress = async (req, res) => {
 
 
     user.shippingAddress = shippingAddress;
+    order.shippingAddress = shippingAddress;
   
 
     await user.save();
     await order.save();
 
 
-    const ordersDb = await Order.find({}).sort({ createdAt: -1 });
+    const ordersDb = await Order.findOne({ user: userId }).sort({ createdAt: -1 });
+    console.log("the order",ordersDb);
 
 
     res.render("checkout-success", { order: order, user });
@@ -233,10 +235,10 @@ const postOrder = async (req, res) => {
 
     const existingOrder = await Order.findOne({ user: userId });
 
-   
+    console.log("the order already exists", existingOrder);
 
     if (existingOrder) {
-      return res.render("checkout-success", { order: existingOrder });
+      return res.render("checkout-success", { order: existingOrder, user });
     }
 
     const cart = await Cart.find({ user: userId }).sort({ createdAt: -1 });
@@ -244,13 +246,13 @@ const postOrder = async (req, res) => {
     const totalCheckoutAmount = await calculateTotalCheckoutAmount(cart)
 
     const order = await Order.create({
-      shippingAddress:  user.shippingAddress,
       user: userId,
       cart,
       totalCheckoutAmount,
     });
 
     console.log(order);
+    console.log(user);
 
     res.render("checkout-success", { order: order, user });
   } catch (error) {

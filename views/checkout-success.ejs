@@ -16,11 +16,23 @@
               <h2>Your Order Details</h2>
 
               <div class="delivery-info">
-                <% if (order) { %>
-                <div class="accordion">
+                <% if (order || existingOrder) { %>
+
+                  <h4 class="delivery-title">Delivery Information</h4>
+                  <% if ( user && user.shippingAddress ) { %>
+                    <p><%= user.shippingAddress.address %></p>
+                    <p><%= user.shippingAddress.area %> <%= user.shippingAddress.city %> <%= user.shippingAddress.zip %><p>
+                      <%= user.shippingAddress.name %>  <%= user.shippingAddress.phone %>
+                    </p>
+                    <% } else { %>
+                      <p>No delivery information, please your enter your delievery information below!!</p>
+                      <% } %> 
+                  <% } %>
+
+                <div class="del-accordion">
                   <div class="accordion-controls">
                     <div class="accordion-header" id="shippingAccordion">
-                      Add your shipping information
+                      Add your delivery information
                     </div>
                     <span class="accordion-icon">+</span>
                   </div>
@@ -29,16 +41,6 @@
                     <%- include('./checkoutPartials/shippinginfo') %>
                   </div>
                 </div>
-                <h4 class="delivery-title">Delivery Information</h4>
-                <% if (user && user.shippingAddress) { %>
-                  <p><%= user.shippingAddress.address %></p>
-                  <p><%= user.shippingAddress.area %>, <%= user.shippingAddress.city %>, <%= user.shippingAddress.zip %><p>
-                    <%= user.shippingAddress.name %> - <%= user.shippingAddress.phone %>
-                  </p>
-                  <% } else { %>
-                    <p>No information</p>
-                  <% } %> 
-                <% } %>
               </div>
             </div>
           </div>

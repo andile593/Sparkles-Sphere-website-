@@ -8,7 +8,7 @@ const {
   postAddress,
   finalOrder,
 } = require("../controllers/cartController");
-const { requireAuth, checkUser } = require("../middleware/authMiddleware");
+const { requireAuth, checkUser, checkRole } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
