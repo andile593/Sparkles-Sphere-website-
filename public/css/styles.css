@@ -726,6 +726,7 @@ p {
   margin: 1.3em 0 0;
   transition: .3s ease-in-out;
   padding: .5em;
+}
 
 .payment-wrap {
   display: flex;
