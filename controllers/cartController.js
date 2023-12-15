@@ -38,8 +38,6 @@ const getCartData = async (req, res) => {
     console.log("the cart objects", cart);
 
     const totalCheckoutAmount = await calculateTotalCheckoutAmount(cart);
-    
-
 
     res.render("cart", { carts: cart, totalCheckoutAmount });
   } catch (error) {
@@ -203,20 +201,18 @@ const postAddress = async (req, res) => {
     const userId = req.user._id.toString();
 
     const order = await Order.findOne({ user: userId }).sort({ orderDate: -1 });
-    const user =  await User.findById(userId)
-
+    const user = await User.findById(userId);
 
     user.shippingAddress = shippingAddress;
     order.shippingAddress = shippingAddress;
-  
 
     await user.save();
     await order.save();
 
-
-    const ordersDb = await Order.findOne({ user: userId }).sort({ createdAt: -1 });
-    console.log("the order",ordersDb);
-
+    const ordersDb = await Order.findOne({ user: userId }).sort({
+      createdAt: -1,
+    });
+    console.log("the order", ordersDb);
 
     res.render("checkout-success", { order: order, user });
   } catch (error) {
@@ -237,13 +233,14 @@ const postOrder = async (req, res) => {
 
     const existingOrder = await Order.findOne({ user: userId });
 
-    
     console.log("the order already exists", existingOrder);
     // console.log("the cart already exists", existingCart);
-    
-    const existingCart = await Order.findOne({ user: userId})
 
-    const updateTotalCheckoutAmount = await calculateTotalCheckoutAmount(existingCart)
+    const existingCart = await Order.findOne({ user: userId });
+
+    const updateTotalCheckoutAmount = await calculateTotalCheckoutAmount(
+      existingCart
+    );
 
     console.log(updateTotalCheckoutAmount);
 
@@ -253,7 +250,7 @@ const postOrder = async (req, res) => {
 
     const cart = await Cart.find({ user: userId }).sort({ createdAt: -1 });
 
-    const totalCheckoutAmount = await calculateTotalCheckoutAmount(cart)
+    const totalCheckoutAmount = await calculateTotalCheckoutAmount(cart);
 
     const order = await Order.create({
       user: userId,
@@ -285,17 +282,15 @@ const finalOrder = async (req, res) => {
 
     const arrayOfItems = order.cart;
 
-    const [products] = arrayOfItems;
+    console.log("the order available", arrayOfItems);
 
-    console.log(products.title);
-    console.log(products.quantity);
-    console.log(products.image);
+    arrayOfItems.forEach((arrayOfItem) => {});
 
     const transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: "andilemhlanga16@gmail.com", // Replace with your Gmail email address
-        pass: "zbnn qzpu qmoc ndpq", 
+        pass: "zbnn qzpu qmoc ndpq",
       },
     });
 
@@ -308,12 +303,17 @@ const finalOrder = async (req, res) => {
     Thank you for your recent purchase from Green Bear Trading & Projects PTY LTD. We appreciate your business and hope you enjoy your new product.
 
     
-
+    ${arrayOfItems
+      .map(
+        (item) => `
     Order Details:
     - Order ID: ${order.id} 
-    - Product: ${products.title}
-    - Quantity: ${products.quantity} 
+    - Product: ${item.title}
+    - Quantity: ${item.quantity} 
     - Total Amount: R${order.totalCheckoutAmount} 
+    `
+      )
+      .join("")}
 
     If you have any questions or concerns regarding your order, please don't hesitate to contact our customer support.
 
@@ -325,19 +325,22 @@ const finalOrder = async (req, res) => {
       <p>Thank you for your recent purchase from Your Company Name. We appreciate your business and hope you enjoy your new product.</p>
 
       <div style="display: flex; flex-wrap: wrap;">
+      ${arrayOfItems
+        .map(
+          (item) => `
+          <div style="width: 50%; display: flex; flex-wrap: wrap;">
+            <img style="width: 50px; height: 60px;" src='${item.image}' alt="${item.title}" />
+            <div style="display: flex; flex-wrap: wrap;">
+            <p style="width: 100%; "><strong>Product:</strong> ${item.title}</p>
+            <p style="width: 100%; "><strong>Quantity:</strong> ${item.quantity}</p>
+            </div>
+          </div>
+        `
+        )
+        .join("")}
         
-        <img style=" width: 50px; height: 60px;" src='${products.image}' alt="${products.title}"/>
-        <div style="display: flex; flex-wrap: wrap;">
-        <p><strong>Order Details:</strong></p>
-        <ul>
-          <li><strong>Order ID:</strong> ${order.id}</li>
-          <li><strong>Product:</strong> ${products.title}</li>
-          <li><strong>Quantity:</strong> ${products.quantity}</li>
-          <li><strong>Total Amount:</strong> R${order.totalCheckoutAmount}</li>
-        </ul>
-        </div>
-
-      </div>
+    </div>
+    <p style="width: 100%; "><strong>Amount:</strong> R ${order.totalCheckoutAmount}</p>
 
       <p>If you have any questions or concerns regarding your order, please don't hesitate to contact our customer support.</p>
 
@@ -346,9 +349,8 @@ const finalOrder = async (req, res) => {
       <p>Best regards,<br>Your Company Name Team</p>`,
     };
 
-
     const companyMailOptions = {
-      from: "andilemhlanga16@gmail.com",
+      from: "andilemhlanga16@gmail.com", // owner email should be placed here
       to: `${user.email}`, // Replace with the customer's email address
       subject: "Thank You for Your Purchase!",
       text: `Dear Customer,
@@ -356,12 +358,17 @@ const finalOrder = async (req, res) => {
     Thank you for your recent purchase from Green Bear Trading & Projects PTY LTD. We appreciate your business and hope you enjoy your new product.
 
     
-
+    ${arrayOfItems
+      .map(
+        (item) => `
     Order Details:
     - Order ID: ${order.id} 
-    - Product: ${products.title}
-    - Quantity: ${products.quantity} 
+    - Product: ${item.title}
+    - Quantity: ${item.quantity} 
     - Total Amount: R${order.totalCheckoutAmount} 
+    `
+      )
+      .join("")}
 
     If you have any questions or concerns regarding your order, please don't hesitate to contact our customer support.
 
@@ -373,19 +380,22 @@ const finalOrder = async (req, res) => {
       <p>Thank you for your recent purchase from Your Company Name. We appreciate your business and hope you enjoy your new product.</p>
 
       <div style="display: flex; flex-wrap: wrap;">
+      ${arrayOfItems
+        .map(
+          (item) => `
+          <div style="width: 50%; display: flex; flex-wrap: wrap;">
+            <img style="width: 50px; height: 60px;" src='${item.image}' alt="${item.title}" />
+            <div style="display: flex; flex-wrap: wrap;">
+            <p style="width: 100%; "><strong>Product:</strong> ${item.title}</p>
+            <p style="width: 100%; "><strong>Quantity:</strong> ${item.quantity}</p>
+            </div>
+          </div>
+        `
+        )
+        .join("")}
         
-        <img style=" width: 50px; height: 60px;" src='${products.image}' alt="${products.title}"/>
-        <div style="display: flex; flex-wrap: wrap;">
-        <p><strong>Order Details:</strong></p>
-        <ul>
-          <li><strong>Order ID:</strong> ${order.id}</li>
-          <li><strong>Product:</strong> ${products.title}</li>
-          <li><strong>Quantity:</strong> ${products.quantity}</li>
-          <li><strong>Total Amount:</strong> R${order.totalCheckoutAmount}</li>
-        </ul>
-        </div>
-
-      </div>
+    </div>
+    <p style="width: 100%; "><strong>Amount:</strong> R ${order.totalCheckoutAmount}</p>
 
       <p>If you have any questions or concerns regarding your order, please don't hesitate to contact our customer support.</p>
 
@@ -395,7 +405,7 @@ const finalOrder = async (req, res) => {
     };
 
     const customereInfo = await transporter.sendMail(customerMailOptions);
-    const companysInfo = await transporter.sendMail(companyMailOptions);
+    // const companysInfo = await transporter.sendMail(companyMailOptions);
 
     res.render("success");
   } catch (error) {
