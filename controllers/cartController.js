@@ -237,14 +237,15 @@ const postOrder = async (req, res) => {
 
     const existingOrder = await Order.findOne({ user: userId });
 
-    const existingCart = await Order.findOne({ user: userId})
-
+    
     console.log("the order already exists", existingOrder);
     // console.log("the cart already exists", existingCart);
+    
+    const existingCart = await Order.findOne({ user: userId})
 
-    // const updateTotalCheckoutAmount = await calculateTotalCheckoutAmount(existingCart)
+    const updateTotalCheckoutAmount = await calculateTotalCheckoutAmount(existingCart)
 
-    // console.log(updateTotalCheckoutAmount);
+    console.log(updateTotalCheckoutAmount);
 
     if (existingOrder) {
       return res.render("checkout-success", { order: existingOrder, user });
