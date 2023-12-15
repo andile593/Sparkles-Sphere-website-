@@ -6,18 +6,20 @@
   <body>
     <%- include('./partials/nav') %>
 
-    <div class="form-cover">
-      <form id="signupForm" action="/signup">
-        <h2>Sign up</h2>
-        <label for="email">Email</label>
-        <input type="text" name="email" required />
-        <div class="email error"></div>
-        <label for="password">Password</label>
-        <input type="password" name="password" required />
-        <div class="password error"></div>
-        <p>Already a user <a href="/login">login</a></p>
-        <button class="form-btn">Sign up</button>
-      </form>
+    <div class="body-form">
+      <div class="form-cover">
+        <form id="signupForm" action="/signup">
+          <h2>Sign up</h2>
+          <label for="email">Email</label>
+          <input type="text" name="email" required />
+          <div class="email error"></div>
+          <label for="password">Password</label>
+          <input type="password" name="password" required />
+          <div class="password error"></div>
+          <p>Already a user <a href="/login">login</a></p>
+          <button class="form-btn">Sign up</button>
+        </form>
+      </div>
     </div>
 
     <script>

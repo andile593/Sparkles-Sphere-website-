@@ -166,11 +166,11 @@ module.exports.resetPassword_post = async (req, res) => {
   try {
     const user = await User.findOne({
       resetToken: token,
-      resetTokenExpires: { $gt: Date.now() }, // Check if the token is still valid
+      resetTokenExpires: { $gt: Date.now() }, 
     });
 
     if (user) {
-      // Set the new password and clear the reset token fields
+      
       user.password = newPassword;
       user.resetToken = null;
       user.resetTokenExpires = null;
@@ -182,7 +182,7 @@ module.exports.resetPassword_post = async (req, res) => {
     } else {
       res.status(400).json({ error: 'Invalid or expired reset token' });
     }
-  } catch (err) {
+  }  catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Internal Server Error' });
   }

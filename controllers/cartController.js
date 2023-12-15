@@ -38,6 +38,8 @@ const getCartData = async (req, res) => {
     console.log("the cart objects", cart);
 
     const totalCheckoutAmount = await calculateTotalCheckoutAmount(cart);
+    
+
 
     res.render("cart", { carts: cart, totalCheckoutAmount });
   } catch (error) {
@@ -235,7 +237,14 @@ const postOrder = async (req, res) => {
 
     const existingOrder = await Order.findOne({ user: userId });
 
+    const existingCart = await Order.findOne({ user: userId})
+
     console.log("the order already exists", existingOrder);
+    // console.log("the cart already exists", existingCart);
+
+    // const updateTotalCheckoutAmount = await calculateTotalCheckoutAmount(existingCart)
+
+    // console.log(updateTotalCheckoutAmount);
 
     if (existingOrder) {
       return res.render("checkout-success", { order: existingOrder, user });

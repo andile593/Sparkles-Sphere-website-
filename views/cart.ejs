@@ -74,6 +74,15 @@
           </div>
           <div class="checkout-wrap">
             <h2 class="summary-title">Cart Summary</h2>
+            <div class="cart-summ-wrap">
+              <h4>Items:</h4>
+              <% carts.forEach(cart => { %>
+                <div class="item-props">
+                  <p class="item"><%= cart.title %></p>
+                  <p>(<%= cart.quantity %>)</p>
+                </div>
+              <% }) %>
+            </div>
             <span class="total-cont">Total:</span>
             <span class="total-price" id="totalPrice">
               R <%= totalCheckoutAmount %>
