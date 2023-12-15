@@ -107,7 +107,13 @@ const sendResetEmail = async (email, resetToken) => {
     from: 'andilemhlanga16@gmail.com', // replace with your email
     to: email,
     subject: 'Password Reset',
-    text: `Click the following link to reset your password: ${resetToken}`,
+    html: `
+      <p>Hello,</p>
+      <p>We received a request to reset your password. If you didn't make this request, you can ignore this email.</p>
+      <p>Click the following link to reset your password:</p>
+      <a href="https://green-bear-trading-d450a8ac48ff.herokuapp.com/reset-password/${resetToken}">Reset Password</a>
+      <p>This link will expire in 1 hour.</p>
+    `,
   };
 
   // Send the email
@@ -137,9 +143,44 @@ module.exports.forgotPassword_post = async (req, res) => {
 
       await sendResetEmail(email, resetToken);
 
-      res.json({ message: 'Password reset link sent successfully' });
+      res.json({ message: 'Check your email to complete resetting your password' });
     } else {
       res.status(404).json({ error: 'User not found' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+module.exports.resetPassword_get = (req, res) => {
+  const token = req.params.token;
+
+  res.render('reset-password', { token });
+};
+
+
+module.exports.resetPassword_post = async (req, res) => {
+  const { token, newPassword } = req.body;
+
+  try {
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpires: { $gt: Date.now() }, // Check if the token is still valid
+    });
+
+    if (user) {
+      // Set the new password and clear the reset token fields
+      user.password = newPassword;
+      user.resetToken = null;
+      user.resetTokenExpires = null;
+
+      await user.save();
+
+      // Redirect to the login page or a success page
+      res.redirect('/login');
+    } else {
+      res.status(400).json({ error: 'Invalid or expired reset token' });
     }
   } catch (err) {
     console.error(err);

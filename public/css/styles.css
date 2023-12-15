@@ -1169,7 +1169,14 @@ label {
   display: flex;
   justify-content: center;
   width: 45%;
+
 }
+
+.success-message {
+  margin: 0 0 1em;
+  color: var(--primaryGreen);
+}
+
 
 .error {
   color: #ff0099;
