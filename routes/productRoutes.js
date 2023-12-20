@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
 const productController = require("../controllers/productController");
 const {
   requireAuth,
@@ -15,7 +13,6 @@ router
 
 router.post(
   "/create-product",
-  upload.single("image"),
   requireAuth,
   checkUser,
   productController.addProduct

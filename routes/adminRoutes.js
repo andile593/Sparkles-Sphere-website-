@@ -1,25 +1,43 @@
-// const express = require('express')
-// const { getProducts, getProduct, addProduct, deleteProduct, updateProduct} = require('../controllers/productController')
-// const { isAdmin, isUser } = require('../middleware/authMiddleware')
-// const router = express.Router()
+const express = require("express");
+const {
+  getProducts,
+  getProduct,
+  addProduct,
+  deleteProduct,
+  updateProduct,
+} = require("../controllers/productController");
+const {
+  requireAuth,
+  checkUser,
+  checkRole,
+} = require("../middleware/authMiddleware");
+const router = express.Router();
 
+router.get("/admin");
 
-// router.get('/')
+//GET all products(Admin)
+router.get("/admin/products", getProducts);
 
-// //GET all products(Admin)
-// router.get('/products',  getProducts)
+// GET a single product(Admin)
+router.get("/admin/product/:id", getProduct);
 
-// // GET a single product(Admin)
-// router.get('/:id', getProduct)
+//Post new product under Admin
 
-// //Post new product under Admin
-// router.route('/new', isAdmin).post( addProduct)
+router.post(
+  "/admin/create-product",
+  requireAuth,
+  checkUser,
+  addProduct
+);
 
-// // //Delete a product under Admin
-// router.route('/:id', isAdmin).delete( deleteProduct)
+router.get("/products/create", (req, res) => {
+  res.render("create");
+});
 
-// // //Update a product under Admin
-// router.route('/:id', isAdmin ).put( updateProduct)
+// //Delete a product under Admin
+router.route("/admin/product/:id", requireAuth, checkUser, checkRole).delete(deleteProduct);
 
+// //Update a product under Admin
+router.route("/admin/product/:id", requireAuth, checkUser, checkRole).put(updateProduct);
 
-// module.exports = router
+module.exports = router;
