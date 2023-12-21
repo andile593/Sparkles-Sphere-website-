@@ -407,7 +407,7 @@ p {
 
 .product {
   box-shadow: 1px 2px 2px 1px #aaa9a9;
-  height: 350px;
+  height: fit-content;
   background: var(--slightlyWhite);
   width: 230px;
   scroll-snap-align: start;
@@ -431,7 +431,27 @@ p {
   font-weight: 600;
   margin-bottom: 4px;
 }
+.view-product {
+  width: 100%;
+  background: var(--primaryGreen);
+  border: none;
+  border-radius: 0;
+}
 
+.view-product a {
+  color: white;
+  text-decoration: none;
+}
+
+
+
+.delete-product button {
+  width: 100%;
+  background: black;
+  border: none;
+  border-radius: 0;
+  color: white;
+}
 .checkout {
   padding: 1.5em;
 }

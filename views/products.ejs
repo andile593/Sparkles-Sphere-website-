@@ -21,7 +21,6 @@
           <div class="products-wrap">
             <% allProducts.forEach(product => { %>
             <div class="product">
-              <a class="link" href="/products/<%= product._id %>">
                 <img
                   class="product-img"
                   src="<%= product.image %>"
@@ -30,7 +29,14 @@
                 <h3 class="product-name"><%= product.title %></h3>
                 <p class="product-description"><%= product.description %></p>
                 <p class="amount">R<%= product.price %></p>
-              </a>
+                <button class="view-product"><a class="link" href="/product/<%= product._id %>">View</a></button>
+                <% if (user && user.role === 'admin') { %>
+                  <div class="delete-product">
+                    <button  onclick="removeProduct('<%= product._id %>')">
+                      Delete
+                    </button>
+                  </div>
+                <% } %>
             </div>
             <% }) %>
           </div>
@@ -44,7 +50,6 @@
           <div class="products-wrap">
             <% bestSellingProducts.forEach(product => { %>
             <div class="product">
-              <a class="link" href="/products/<%= product._id %>">
                 <img
                   class="product-img"
                   src="<%= product.image %>"
@@ -53,7 +58,14 @@
                 <h3 class="product-name"><%= product.title %></h3>
                 <p class="product-description"><%= product.description %></p>
                 <p class="amount">R<%= product.price %></p>
-              </a>
+                <button class="view-product"><a class="link" href="/product/<%= product._id %>">View</a></button>
+                <% if (user && user.role === 'admin') { %>
+                  <div class="delete-product">
+                    <button  onclick="removeProduct('<%= product._id %>')">
+                      Delete
+                    </button>
+                  </div>
+                <% } %>
             </div>
             <% }) %>
           </div>
@@ -67,7 +79,6 @@
           <div class="products-wrap">
             <% homeProducts.forEach(product => { %>
             <div class="product">
-              <a class="link" href="/products/<%= product._id %>">
                 <img
                   class="product-img"
                   src="<%= product.image %>"
@@ -76,7 +87,14 @@
                 <h3 class="product-name"><%= product.title %></h3>
                 <p class="product-description"><%= product.description %></p>
                 <p class="amount">R<%= product.price %></p>
-              </a>
+                <button class="view-product"><a class="link" href="/product/<%= product._id %>">View</a></button>
+                <% if (user && user.role === 'admin') { %>
+                  <div class="delete-product">
+                    <button  onclick="removeProduct('<%= product._id %>')">
+                      Delete
+                    </button>
+                  </div>
+                <% } %>
             </div>
             <% }) %>
           </div>
@@ -90,7 +108,6 @@
           <div class="products-wrap">
             <% carProducts.forEach(product => { %>
             <div class="product">
-              <a class="link" href="/products/<%= product._id %>">
                 <img
                   class="product-img"
                   src="<%= product.image %>"
@@ -99,7 +116,14 @@
                 <h3 class="product-name"><%= product.title %></h3>
                 <p class="product-description"><%= product.description %></p>
                 <p class="amount">R<%= product.price %></p>
-              </a>
+                <button class="view-product"><a class="link" href="/product/<%= product._id %>">View</a></button>
+                <% if (user && user.role === 'admin') { %>
+                  <div class="delete-product">
+                    <button  onclick="removeProduct('<%= product._id %>')">
+                      Delete
+                    </button>
+                  </div>
+                <% } %>
             </div>
             <% }) %>
           </div>
@@ -110,6 +134,23 @@
     <%- include('./partials/footer') %>
   </body>
 
+  <script>
+     async function removeProduct(productId) {
+        try {
+          console.log("remove button clicked");
+          const response = await fetch(`/product/remove/${productId}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          
+          window.location.reload();
+        } catch (error) {
+          console.error("Error during fetch:", error);
+        }
+      }
+  </script>
 
   <script src="../js/part.js"></script>
 </html>

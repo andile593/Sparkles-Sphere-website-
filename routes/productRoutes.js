@@ -22,11 +22,11 @@ router.get("/products/create", (req, res) => {
   res.render("create");
 });
 
-router.route("/products/:id").get(productController.getProduct);
+router.route("/product/:id").get(productController.getProduct);
 
-router.route("/products/:id").delete(productController.deleteProduct);
+router.get("/product/remove/:id", productController.deleteProduct);
 
-router.route("/products/:id").put(productController.updateProduct);
+router.get("/product/:id", productController.updateProduct);
 
 router.get(
   "/products/category/:category",

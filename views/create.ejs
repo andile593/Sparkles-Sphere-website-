@@ -14,7 +14,7 @@
       <div class="title error"></div>
 
       <label for="Image">Image</label>
-      <input type="file" name="image" accept="image/*" required />
+      <input type="text" name="image"  required />
       <div class="image error"></div>
 
       <label for="category">Category</label>
@@ -59,7 +59,7 @@
           const res = await fetch("/products/create-product", {
             method: "POST",
             body: formData,
-            headers: { "Content-Type": "application/json" },
+            // headers: { "Content-Type": "application/json" },
           });
 
           const data = await res.json();
