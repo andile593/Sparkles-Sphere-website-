@@ -320,9 +320,9 @@ const finalOrder = async (req, res) => {
     Thank you again for choosing Green Bear Trading & Projects PTY LTD.
 
     Best regards,
-    Your Company Name Team`,
+    Green Bear Trading & Projects`,
       html: `<p>Dear Customer,</p>
-      <p>Thank you for your recent purchase from Your Company Name. We appreciate your business and hope you enjoy your new product.</p>
+      <p>Thank you for your recent purchase from Green Bear Trading & Projects. We appreciate your business and hope you enjoy your new product.</p>
 
       <div style="display: flex; flex-wrap: wrap;">
       ${arrayOfItems
@@ -344,9 +344,9 @@ const finalOrder = async (req, res) => {
 
       <p>If you have any questions or concerns regarding your order, please don't hesitate to contact our customer support.</p>
 
-      <p>Thank you again for choosing Your Company Name.</p>
+      <p>Thank you again for choosing Green Bear Trading & Projects</p>
 
-      <p>Best regards,<br>Your Company Name Team</p>`,
+      <p>Best regards,<br>Green Bear Trading & Projects</p>`,
     };
 
     const companyMailOptions = {
