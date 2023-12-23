@@ -378,6 +378,23 @@ p {
   box-shadow: none;
 }
 
+.cta-link {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.more-pro {
+  background-color: var(--primaryGreen);
+  width: 135px;
+
+}
+
+
+.more-pro a {
+  color: white;
+}
+
 .item1 {
   width: 345px;
   background-color: #fff;
@@ -461,6 +478,7 @@ p {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  min-height: 645px;
 }
 
 .checkout-order > div {
@@ -777,7 +795,8 @@ p.item {
   margin: 0.5em 0;
   background-color: #f3f3f3;
   align-items: center;
-  padding: 0 0 0 5px;
+  padding: 0 5px;
+  justify-content: space-between;
 }
 .payment-option input {
   position: absolute;
@@ -791,6 +810,14 @@ p.item {
 .payment-option label {
   padding: 2px 0;
   color: #2b2b2b;
+}
+
+.payfast-img {
+  background-image: url("../images/Payfast.png");
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 80px;
+  height: 45px;
 }
 
 .delivery-info p {
@@ -837,7 +864,7 @@ p.item {
 .del-accordion {
   display: flex;
   flex-direction: column;
-  width: 300px;
+  width: 100%;
   margin: 1em 0 0;
 }
 
@@ -1164,6 +1191,10 @@ form {
   padding: 30px;
   background: #fff;
 }
+
+.adjust {
+  height: 660px;
+}
 form h2 {
   font-size: 2.4em;
   font-weight: 900;
@@ -1458,6 +1489,11 @@ a.prId {
   span.total-cont {
     width: 85%;
   }
+
+  .checkout-order {
+    min-height: 665px;
+  }
+
 }
 
 @media (min-width: 1000px) {
@@ -1481,6 +1517,15 @@ a.prId {
   .checkout-link {
     margin: 2em 0;
   }
+
+  .available-cart {
+    display: flex;
+    align-items: center;
+}
+
+
+
+
 }
 
 @media (min-width: 63em) {

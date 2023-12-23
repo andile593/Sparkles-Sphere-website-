@@ -12,7 +12,7 @@ router
   .get(requireAuth, checkUser, productController.getProducts);
 
 router.post(
-  "/create-product",
+  "/products/create",
   requireAuth,
   checkUser,
   productController.addProduct

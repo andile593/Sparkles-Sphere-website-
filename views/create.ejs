@@ -6,7 +6,7 @@
   <body>
     <%- include('./partials/nav') %>
 
-    <form action="/products/create-product" method="POST">
+    <form action="/products/create" method="POST">
       <h2>Post new product</h2>
 
       <label for="title">Title</label>
@@ -14,7 +14,7 @@
       <div class="title error"></div>
 
       <label for="Image">Image</label>
-      <input type="text" name="image"  required />
+      <input type="text" name="image" required />
       <div class="image error"></div>
 
       <label for="category">Category</label>
@@ -26,7 +26,7 @@
       <div class="category error"></div>
 
       <label for="description">Description</label>
-      <textarea name="" id="" cols="30" rows="10"></textarea>
+      <textarea name="description" id="" cols="30" rows="10"></textarea>
       <div class="description error"></div>
 
       <label for="price">Price</label>
@@ -36,7 +36,7 @@
       <button>Post</button>
     </form>
 
-    <script>
+    <!-- <script>
       const form = document.querySelector("form");
       const titleError = document.querySelector(".title.error");
       const imageError = document.querySelector(".image.error");
@@ -55,31 +55,33 @@
         // Get form data
         const formData = new FormData(form);
 
-        try {
-          const res = await fetch("/products/create-product", {
-            method: "POST",
-            body: formData,
-            // headers: { "Content-Type": "application/json" },
-          });
+        console.log(formData);
 
-          const data = await res.json();
-          console.log(data);
+        // try {
+        //   const res = await fetch("/products/create", {
+        //     method: "POST",
+        //     body: formData,
+        //     // headers: { "Content-Type": "application/json" },
+        //   });
 
-          if (data.errors) {
-            titleError.textContent = data.errors.title;
-            imageError.textContent = data.errors.image;
-            descriptionError.textContent = data.errors.description;
-            priceError.textContent = data.errors.price;
-          }
+        //   const data = await res.json();
+        //   console.log(data);
 
-          data.role === "admin"
-            ? location.assign("/admin/products")
-            : location.assign("/products");
-        } catch (err) {
-          console.log(err);
-        }
+        //   if (data.errors) {
+        //     titleError.textContent = data.errors.title;
+        //     imageError.textContent = data.errors.image;
+        //     descriptionError.textContent = data.errors.description;
+        //     priceError.textContent = data.errors.price;
+        //   }
+
+        //   data.role === "admin"
+        //     ? location.assign("/admin/products")
+        //     : location.assign("/products");
+        // } catch (err) {
+        //   console.log(err);
+        // }
       });
-    </script>
+    </script> -->
 
     <%- include('./partials/footer') %>
   </body>

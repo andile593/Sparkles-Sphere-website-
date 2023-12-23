@@ -56,25 +56,36 @@ const getProduct = async (req, res) => {
 
 //create a product(Admin)
 const addProduct = async (req, res) => {
-  if (req.user.role !== "admin") {
-    return res
-      .status(403)
-      .json({ error: "Unauthorized. Only admin can add products." });
-  }
 
-  const { title, description, price, category } = req.body;
 
-  const image = req.file ? req.file.path : null;
+  const product = new Product(req.body);
+  product.save()
+    .then(result => {
+      res.redirect('/products');
+    })
+    .catch(err => {
+      console.log(err);
+    });
 
-  const products = await Product.create({
-    title,
-    image,
-    description,
-    price,
-    category,
-  });
+  // if (req.user.role !== "admin") {
+  //   return res
+  //     .status(403)
+  //     .json({ error: "Unauthorized. Only admin can add products." });
+  // }
 
-  res.redirect("/products");
+  // const { title, description, price, category } = req.body;
+
+  // const image = req.file ? req.file.path : null;
+
+  // const products = await Product.create({
+  //   title,
+  //   image,
+  //   description,
+  //   price,
+  //   category,
+  // });
+
+  // res.redirect("/products");
 };
 
 // delete a product(Admin)
