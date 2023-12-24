@@ -111,7 +111,7 @@ const sendResetEmail = async (email, resetToken) => {
       <p>Hello,</p>
       <p>We received a request to reset your password. If you didn't make this request, you can ignore this email.</p>
       <p>Click the following link to reset your password:</p>
-      <a href="http://www.greenbeartrading.co.za//reset-password/${resetToken}">Reset Password</a>
+      <a href="http://www.greenbeartrading.co.za/reset-password/${resetToken}">Reset Password</a>
       <p>This link will expire in 1 hour.</p>
     `,
   };
