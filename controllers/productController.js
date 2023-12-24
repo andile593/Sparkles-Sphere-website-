@@ -17,7 +17,10 @@ const getProducts = async (req, res) => {
   const carProducts = await Product.find({ category: "Car-essentials" }).sort({
     createdAt: -1,
   });
-  console.log(req.user);
+
+  const Drinks = await Product.find({ category: "Drinks" }).sort({
+    createdAt: -1,
+  });
 
   res.render("products", {
     user: req.user,
@@ -25,6 +28,7 @@ const getProducts = async (req, res) => {
     bestSellingProducts,
     homeProducts,
     carProducts,
+    Drinks
   });
 };
 
