@@ -129,6 +129,36 @@
           </div>
         </div>
       </div>
+
+      <div class="category-section">
+        <h2>Drinks</h2>
+  
+        <div class="body-cont">
+          <div class="products-wrap">
+            <% Drinks.forEach(product => { %>
+            <div class="product">
+                <img
+                  class="product-img"
+                  src="<%= product.image %>"
+                  alt="<%= product.title %>"
+                />
+                <h3 class="product-name"><%= product.title %></h3>
+                <p class="product-description"><%= product.description %></p>
+                <p class="amount">R<%= product.price %></p>
+                <button class="view-product"><a class="link" href="/product/<%= product._id %>">View</a></button>
+                <% if (user && user.role === 'admin') { %>
+                  <div class="delete-product">
+                    <button  onclick="removeProduct('<%= product._id %>')">
+                      Delete
+                    </button>
+                  </div>
+                <% } %>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <%- include('./partials/footer') %>
