@@ -256,6 +256,7 @@ const postOrder = async (req, res) => {
       user: userId,
       cart,
       totalCheckoutAmount,
+      paymentStatus: "Pending", 
     });
 
     console.log(order);

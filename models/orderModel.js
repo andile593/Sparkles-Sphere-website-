@@ -66,6 +66,11 @@ const orderSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  paymentStatus: {
+    type: String,
+    enum: ["Pending", "Paid", "Failed"],
+    default: "Pending",
+  },
 });
 
 module.exports = mongoose.model("Order", orderSchema);

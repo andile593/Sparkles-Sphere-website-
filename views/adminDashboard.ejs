@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('./partials/headInfo') %>
+    <style>
+      .customer-items {
+        display: none;
+      }
+
+      .accordion-button {
+        cursor: pointer;
+        padding: 5px;
+        background-color: #f1f1f1;
+        text-align: left;
+        border: 1px solid #ddd;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('./partials/nav') %>
+
+    <div class="orders-body-wrapper">
+      <div class="orders">
+        <% customerOrders.forEach(order => { %>
+        <div class="order">
+          <div class="order-headline">
+            <h4 class="border">Order ID</h4>
+            <h4>Email</h4>
+            <h4>Amount</h4>
+            <h4>Payment</h4>
+          </div>
+
+          <div class="orderInfo">
+            <p class="border"><%= order._doc._id %></p>
+            <p><%= order.userEmail %></p>
+            <p>R <%= order._doc.totalCheckoutAmount %>,00</p>
+            <div class="payment-wrapper">
+              <p class="payment-text"><%= order._doc.paymentStatus %></p>
+            </div>
+          </div>
+          <button class="delivered-btn" onclick="markDelivered('<%= order._doc._id %>')">
+            Delivered
+          </button>
+        </div>
+        <% }) %>
+      </div>
+    </div>
+
+    <%- include('./partials/footer') %>
+  </body>
+  <script>
+    const paymentText = document.querySelectorAll(".payment-text");
+    const paymentWrapper = document.querySelectorAll(".payment-wrapper");
+
+    paymentText.forEach((text, index) => {
+      if (text.textContent === "Pending") {
+        paymentWrapper[index].classList.add("paymentColorOrange");
+      } else if (text.textContent === "Paid") {
+        paymentWrapper[index].classList.add("paymentColorGreen");
+      } else {
+        paymentWrapper[index].classList.add("paymentColorRed");
+      }
+    });
+
+    function toggleItems() {
+      const itemsDiv = document.querySelectorAll("customer-items");
+      itemsDiv.style.display =
+        itemsDiv.style.display === "none" ? "block" : "none";
+    }
+
+    async function markDelivered(orderId) {
+      try {
+        const response = await fetch(`/admin/markDelivered/${orderId}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          // Reload the page after successful deletion
+          location.reload();
+        } else {
+          console.error("Failed to mark order as delivered");
+        }
+      } catch (error) {
+        console.error("Error marking order as delivered:", error);
+      }
+    }
+  </script>
+  <script src="../js/part.js"></script>
+</html>

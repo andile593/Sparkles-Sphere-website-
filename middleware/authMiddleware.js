@@ -4,7 +4,7 @@ const User = require('../models/userModel');
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
 
-  // check json web token exists & is verified
+  
   if (token) {
     jwt.verify(token, 'green bear secret', (err, decodedToken) => {
       if (err) {

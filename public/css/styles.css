@@ -1282,6 +1282,90 @@ a.prId {
   font-weight: bolder;
 }
 
+.orders-body-wrapper {
+  min-height: 82vh;
+  background: #ededed;
+}
+
+.orders {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.order {
+  display: flex;
+  width: 90%;
+  gap: 3em;
+  padding: .8em;
+  background: white;
+  margin: 1em;
+  flex-wrap: wrap;
+}
+
+.order-headline {
+  width: fit-content;
+  line-height: 3;
+}
+
+.orderInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.border {
+  border-bottom: 1px solid gray;
+  width: 100%;
+}
+
+.orderInfo p {
+  line-height: 3.7;
+  margin: 0;
+}
+
+.payment-text {
+  color: white;
+}
+
+.paymentColorGreen {
+  background: var(--primaryGreen);
+  width: 100px;
+  height: 45px;
+  padding: 0 1em;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.paymentColorOrange {
+  background: orange;
+  width: 100px;
+  height: 45px;
+  padding: 0 1em;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.paymentColorRed {
+  background: red;
+  width: 100px;
+  height: 45px;
+  padding: 0 1em;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.delivered-btn {
+  margin: 0 0 0 15em;
+  width: 117px;
+}
+
+
+
+
+
 @media (min-width: 500px) {
   .product-wrapper {
     height: 83vh;
