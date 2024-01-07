@@ -195,6 +195,15 @@ const removeCartData = async (req, res) => {
   }
 };
 
+const getCustomerOrders = async (req, res) => {
+  const userId = req.user._id.toString();
+
+  const order = await Order.find({ user: userId }).sort({ createdAt: -1 });
+
+  console.log("the order objects", order);
+
+}
+
 const postAddress = async (req, res) => {
   try {
     const { shippingAddress } = req.body;
@@ -420,6 +429,7 @@ module.exports = {
   updateCart,
   getCartData,
   removeCartData,
+  getCustomerOrders,
   postOrder,
   postAddress,
   finalOrder,

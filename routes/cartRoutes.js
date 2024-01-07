@@ -4,6 +4,7 @@ const {
   updateCart,
   getCartData,
   removeCartData,
+  getCustomerOrders,
   postOrder,
   postAddress,
   finalOrder,
@@ -18,9 +19,11 @@ router.get("/cart/add-to-cart/:id", requireAuth, checkUser, addToCart);
 router.get("/checkout-order", requireAuth, checkUser, postOrder);
 
 router.get("/cart/remove/:id", removeCartData);
+
 router.post("/cart/update/:id", updateCart);
 router.post("/submit-order", requireAuth, checkUser, postAddress);
 
 router.get("/success", requireAuth, checkUser, finalOrder);
+router.get('/orders', getCustomerOrders)
 
 module.exports = router;
