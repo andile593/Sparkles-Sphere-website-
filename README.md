@@ -1,6 +1,3 @@
-Certainly! Below is a sample README for an eCommerce project using Node.js, Express.js, and MongoDB. This README provides a brief description of the project, instructions for setting up and running the project, and additional information for developers.
-
----
 
 # E-Commerce Platform with Node.js, Express.js, and MongoDB
 
