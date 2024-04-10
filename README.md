@@ -1,4 +1,5 @@
 # Sparkles Sphere - Cleaning Services E-Commerce Project
+![SparklesSphere image](https://github.com/andile593/Sparkles-Sphere-website-/assets/71168590/2ad2966a-7734-4823-a7fc-3b024d5bc825)
 
 Sparkles Sphere is an E-Commerce platform that specializes in providing top-notch cleaning services. This web application is built using Node.js, Express.js, and MongoDB, offering a seamless and secure platform for users to access a variety of cleaning services and products.
 
