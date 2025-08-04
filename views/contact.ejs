@@ -1,28 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <%- include('./partials/headInfo') %>
-</head>
-<body>
+  </head>
+  <body>
     <div class="content-cover">
-        <%- include('./partials/nav') %>
-        
-        <div class="form-cover adjust">
-            <form>
-              <h2 class="heading">Book our services</h2>
-              <h5>Use the following contact details.</h5>
-              <li>Contact number : 073 044 1964/073 843 4372</li>
-              <li>
-                Email address : jabushabangu@greenbeartrading.co.za /
-                lindos@greenbeartrading.co.za
-              </li>
-            </form>
-          </div>
-    
+      <%- include('./partials/nav') %>
 
-        <%- include('./partials/footer') %>
+      <div class="form-cover adjust">
+        <form action="/contact" method="POST" class="contact-form">
+          <label for="name">Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            placeholder="Your name"
+          />
+
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            placeholder="Your email"
+          />
+
+          <label for="subject">Subject</label>
+          <input
+            type="text"
+            id="subject"
+            name="subject"
+            placeholder="Subject"
+          />
+
+          <label for="message">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            placeholder="Your message here..."
+          ></textarea>
+
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+
+      <%- include('./partials/footer') %>
     </div>
-    
-</body>
-<script src="../js/part.js"></script>
+  </body>
+  <script src="../js/part.js"></script>
 </html>

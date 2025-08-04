@@ -10,6 +10,7 @@ const pagesRoutes = require("./routes/pagesRoutes");
 const authRoutes = require("./routes/authRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const adminRoutes = require("./routes/adminRoutes")
+const { checkUser } = require("./middleware/authMiddleware");
 
 const app = express();
 
@@ -36,7 +37,7 @@ app.use(
   })
 );
 app.use(cookieParser());
-
+app.use(checkUser);
 app.use("/", pagesRoutes);
 app.use("/", productRoutes);
 app.use("/", cartRoutes);

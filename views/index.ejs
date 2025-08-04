@@ -9,7 +9,7 @@
 
       <div class="hero-sec">
         <div class="hero-wrap">
-          <img src="../images/everdrop.jpg" alt="">
+          <img src="../images/everdrop.jpg" alt="" />
           <div class="sub-sec">
             <h1>Clean your environment, get the best sensation</h1>
             <p>
@@ -36,9 +36,9 @@
             <img class="icon" src="../images/bed.png" alt="A bed" />
             <h3 class="subheading">Residential Cleaning</h3>
             <p>
-              Our company caters cleaning for all types of residential
-                property, flats, townhouses, semi-detached houses, duet houses,
-                holiday apartments, shops or office blocks.
+              Our company caters cleaning for all types of residential property,
+              flats, townhouses, semi-detached houses, duet houses, holiday
+              apartments, shops or office blocks.
             </p>
             <a href="/services">view More</a>
           </div>
@@ -47,9 +47,9 @@
             <h3 class="subheading">Commercial</h3>
             <p>
               Commercial cleaning services is provisional to the corparate
-                buildings. Corparate buildings which we work on are corparate
-                offices, airports, hotels, shopping malls, hospitals, doctor's
-                rooms, banks, educational institutions and warehouses.
+              buildings. Corparate buildings which we work on are corparate
+              offices, airports, hotels, shopping malls, hospitals, doctor's
+              rooms, banks, educational institutions and warehouses.
             </p>
             <a href="/services">View More</a>
           </div>
@@ -77,54 +77,62 @@
         <div class="about-subsec1">
           <h2>About us</h2>
           <p>
-            Green Bear is a 100% black owned business. We've customize our services to meet your unique needs, residential and commercial cleaning that you may have. You can hire us with confidence that we will be able to meet all your commercial buliding and office cleaning services professionally, affordable and efficiently.
+            Green Bear is a 100% black owned business. We've customize our
+            services to meet your unique needs, residential and commercial
+            cleaning that you may have. You can hire us with confidence that we
+            will be able to meet all your commercial buliding and office
+            cleaning services professionally, affordable and efficiently.
           </p>
           <button>Read more</button>
         </div>
         <div class="about-subsec2">
-          <img src="../images/glass-cleaning.jpg" alt="Cleaning Windows" class="about-img">
+          <img
+            src="../images/glass-cleaning.jpg"
+            alt="Cleaning Windows"
+            class="about-img"
+          />
         </div>
       </div>
       <div class="product-sec">
         <div class="cta-store">
-          <h2 class="store-subtitle">New collection</h2>
+          <h2 class="store-subtitle">New Collection</h2>
         </div>
+
         <div class="products-wrap">
-          <div class="product">
-            <img src="https://i.postimg.cc/KYTpLkGn/Air-freshener-5-L.jpg" alt="Air-freshener" />
-            <h3 class="product-name">Air-freshener</h3>
-            <p class="product-description">Air freshener 5Litre</p>
-            <p class="amount">R120,00</p>
-          </div>
-
-          <div class="product">
-            <img src="https://i.postimg.cc/Dw8MvpRp/Air-freshener-2-L.jpg" alt="Air-freshener" />
-            <h3 class="product-name">Air freshener</h3>
-            <p class="product-description">Air freshener 2Litre</p>
-            <p class="amount">R60,00</p>
-          </div>
-
-          <div class="product">
-            <img src="https://i.postimg.cc/9Mj8Bm0s/Car-wash-wax.jpg" alt="Car shampoo" />
-            <h3 class="product-name">Car Shampoo</h3>
-            <p class="product-description">Car shampoo 2Litre</p>
-            <p class="amount">R75,00</p>
-          </div>
-
-          <div class="product">
-            <img src="https://i.postimg.cc/KvVZr8BB/Car-wash-wax.jpg" alt="Car wash & wax" />
-            <h3 class="product-name">Car wash & wax</h3>
-            <p class="product-description">Car wax 2Litre</p>
-            <p class="amount">R80,00</p>
-          </div>
+          <% newProducts.forEach(product => { %>
+          <a class="product-link" href="/product/<%= product._id %>">
+              <div class="product">
+                <img
+                  class="product-img"
+                  src="<%= product.image %>"
+                  alt="<%= product.title %>"
+                />
+                <h3 class="products-name"><%= product.title %></h3>
+                <p class="product-description"><%= product.description %></p>
+                <p class="products-amount">R<%= product.price %></p>
+                <% if (user && user.role === 'admin') { %>
+                <div class="delete-product">
+                  <button
+                    onclick="event.stopPropagation(); removeProduct('<%= product._id %>')"
+                  >
+                    Delete
+                  </button>
+                </div>
+                <% } %>
+              </div>
+            </a>
+          <% }) %>
         </div>
+
         <div class="cta-link">
-          <button class="more-pro" ><a href="/products.html">More products</a></button>
+          <button class="more-pro">
+            <a href="/products">More products</a>
+          </button>
         </div>
       </div>
       <div class="wou">
         <div class="wou-img">
-          <img src="../images/scrub.jpg" alt="">
+          <img src="../images/scrub.jpg" alt="" />
         </div>
         <div class="wou-info">
           <h1>Why Choose us</h1>
@@ -140,7 +148,7 @@
           </div>
         </div>
       </div>
-      
+
       <%- include('./partials/footer') %>
     </div>
   </body>

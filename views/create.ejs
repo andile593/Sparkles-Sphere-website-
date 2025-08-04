@@ -6,84 +6,37 @@
   <body>
     <%- include('./partials/nav') %>
 
-    <form action="/products/create" method="POST">
-      <h2>Post new product</h2>
+    <form action="/products/create" method="POST" class="product-form">
+      <h2 class="form-title">Post New Product</h2>
 
       <label for="title">Title</label>
-      <input type="text" name="title" required />
-      <div class="title error"></div>
+      <input type="text" name="title" class="form-input" required />
+      <div class="error title"></div>
 
-      <label for="Image">Image</label>
-      <input type="text" name="image" required />
-      <div class="image error"></div>
+      <label for="image">Image (URL)</label>
+      <input type="text" name="image" class="form-input" required />
+      <div class="error image"></div>
 
       <label for="category">Category</label>
-      <select name="category" required>
+      <select name="category" class="form-select" required>
         <option value="Products">Products</option>
         <option value="Best-selling">Best-selling</option>
         <option value="Home">Home</option>
         <option value="Car-essentials">Car Essentials</option>
         <option value="Drinks">Drinks</option>
       </select>
-      <div class="category error"></div>
+      <div class="error category"></div>
 
       <label for="description">Description</label>
-      <textarea name="description" id="" cols="30" rows="10"></textarea>
-      <div class="description error"></div>
+      <textarea name="description" class="form-textarea" rows="6"></textarea>
+      <div class="error description"></div>
 
-      <label for="price">Price</label>
-      <input type="text" name="price" required />
-      <div class="price error"></div>
+      <label for="price">Price (R)</label>
+      <input type="text" name="price" class="form-input" required />
+      <div class="error price"></div>
 
-      <button>Post</button>
+      <button class="form-button">Post</button>
     </form>
-
-    <!-- <script>
-      const form = document.querySelector("form");
-      const titleError = document.querySelector(".title.error");
-      const imageError = document.querySelector(".image.error");
-      const descriptionError = document.querySelector(".description.error");
-      const priceError = document.querySelector(".price.error");
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        // Reset errors
-        titleError.textContent = "";
-        imageError.textContent = "";
-        descriptionError.textContent = "";
-        priceError.textContent = "";
-
-        // Get form data
-        const formData = new FormData(form);
-
-        console.log(formData);
-
-        // try {
-        //   const res = await fetch("/products/create", {
-        //     method: "POST",
-        //     body: formData,
-        //     // headers: { "Content-Type": "application/json" },
-        //   });
-
-        //   const data = await res.json();
-        //   console.log(data);
-
-        //   if (data.errors) {
-        //     titleError.textContent = data.errors.title;
-        //     imageError.textContent = data.errors.image;
-        //     descriptionError.textContent = data.errors.description;
-        //     priceError.textContent = data.errors.price;
-        //   }
-
-        //   data.role === "admin"
-        //     ? location.assign("/admin/products")
-        //     : location.assign("/products");
-        // } catch (err) {
-        //   console.log(err);
-        // }
-      });
-    </script> -->
 
     <%- include('./partials/footer') %>
   </body>

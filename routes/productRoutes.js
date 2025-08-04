@@ -9,7 +9,7 @@ const {
 
 router
   .route("/products")
-  .get(requireAuth, checkUser, productController.getProducts);
+  .get(productController.getProducts);
 
 router.post(
   "/products/create",

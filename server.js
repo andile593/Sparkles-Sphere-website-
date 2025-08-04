@@ -9,6 +9,7 @@ const config = require('./config');
 const app = require('./app'); 
 
 dotenv.config();
+const PORT = process.env.PORT || 3000;
 
 mongoose.set('strictQuery', false);
 mongoose.connect(config.databaseURL)
