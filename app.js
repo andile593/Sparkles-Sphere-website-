@@ -3,8 +3,10 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
 const bodyParser = require("body-parser");
 const config = require("./config");
+
 const productRoutes = require("./routes/productRoutes");
 const pagesRoutes = require("./routes/pagesRoutes");
 const authRoutes = require("./routes/authRoutes");
@@ -16,6 +18,17 @@ const app = express();
 
 app.set("view engine", "ejs");
 app.set("views", "views");
+
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 } // 1 week
+  })
+);
+
 
 app.use(cors({ origin: process.env.REMOTE_CLIENT_APP, credentials: true }));
 app.use(express.static("public"));

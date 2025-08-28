@@ -4,26 +4,20 @@ const {
   updateCart,
   getCartData,
   removeCartData,
-  getCustomerOrders,
-  postOrder,
-  postAddress,
-  finalOrder,
-} = require("../controllers/cartController");
-const { requireAuth, checkUser, checkRole } = require("../middleware/authMiddleware");
+} = require("../controllers/cartController"); // only import what exists now
 
 const router = express.Router();
 
-router.get("/cart", requireAuth, checkUser, getCartData);
+// Display the cart (no login required)
+router.get("/cart", getCartData);
 
-router.get("/cart/add-to-cart/:id", requireAuth, checkUser, addToCart);
-router.get("/checkout-order", requireAuth, checkUser, postOrder);
+// Add item to cart (no login required)
+router.get("/cart/add-to-cart/:id", addToCart);
 
+// Remove item from cart
 router.get("/cart/remove/:id", removeCartData);
 
+// Update quantity
 router.post("/cart/update/:id", updateCart);
-router.post("/submit-order", requireAuth, checkUser, postAddress);
-
-router.get("/success", requireAuth, checkUser, finalOrder);
-router.get('/orders', getCustomerOrders)
 
 module.exports = router;

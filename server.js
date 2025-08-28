@@ -9,13 +9,14 @@ const config = require('./config');
 const app = require('./app'); 
 
 dotenv.config();
+
 const PORT = process.env.PORT || 3000;
 
 mongoose.set('strictQuery', false);
 mongoose.connect(config.databaseURL)
   .then(() => {
-    app.listen(process.env.PORT, () => {
-      console.log('connected to db & listening on port', process.env.PORT);
+    app.listen(PORT, () => {
+      console.log('connected to db & listening on port', PORT);
     });
   })
   .catch((error) => {
