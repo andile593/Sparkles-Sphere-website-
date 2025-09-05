@@ -1,90 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <%- include('./partials/headInfo') %>
-  </head>
-  <body>
-    <div class="product-cover">
-      <%- include('./partials/nav') %>
+
+<head>
+  <%- include('./partials/headInfo') %>
+</head>
+
+<body>
+  <div class="product-cover">
+    <%- include('./partials/nav') %>
 
       <nav class="breadcrumb">
         <a href="/">Home</a> &raquo; <a href="/products">Products</a> &raquo;
-        <span><%= product.title %></span>
+        <span>
+          <%= product.title %>
+        </span>
       </nav>
 
       <div class="product-wrap">
         <div class="product-content">
           <a class="prId" href="<%= product._id %>">
-            <img
-              class="product-image"
-              src="<%= product.image %>"
-              alt="<%= product.title %>"
-            />
+            <img class="product-image" src="<%= product.image %>" alt="<%= product.title %>" />
           </a>
           <div class="product-info">
-            <h2 class="product-name"><%= product.title %></h2>
-            <p
-              class="product-detail-description"
-              onclick="this.classList.toggle('expanded')"
-            >
+            <h2 class="product-name">
+              <%= product.title %>
+            </h2>
+            <p class="product-detail-description" onclick="this.classList.toggle('expanded')">
               <%= product.description %>
             </p>
             <p class="stock-status">In stock</p>
             <div class="rating">⭐⭐⭐⭐☆ (120 reviews)</div>
 
-            <p class="amount">R<%= product.price %></p>
+            <p class="amount">R<%= product.price %>
+            </p>
             <p class="impt">Delivered 3-5 working days</p>
 
             <div class="add-to-cart">
-              <button onclick="addToCart('<%= product._id %>', this)">
-                Add to cart
-              </button>
+              <button onclick="addToCart('<%= product._id %>', this)">Add to Cart</button>
             </div>
+
           </div>
         </div>
       </div>
-    </div>
+  </div>
 
-    <%- include('./partials/footer') %>
+  <%- include('./partials/footer') %>
     <div id="toast" class="toast hidden">Product added to cart!</div>
-  </body>
-  <script src="../js/part.js"></script>
-  <script>
-    async function addToCart(productId, button) {
-      try {
-        const res = await fetch(`/cart/add-to-cart/${productId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+</body>
+<script src="../js/part.js"></script>
+<script>
+  window.addToCart = async function(productId, button) {
+    try {
+      const res = await fetch(`/cart/add-to-cart/${productId}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
 
-        if (res.ok) {
-          // Feedback
-          button.disabled = true;
-          button.innerText = "Added to cart";
-          button.style.backgroundColor = "#ccc";
-          button.style.cursor = "not-allowed";
+      if (res.ok) {
+        button.disabled = true;
+        button.innerText = "Added to cart";
+        button.style.backgroundColor = "#ccc";
+        button.style.cursor = "not-allowed";
 
-          // Optional: toast or confirmation
-          showToast("Product added to cart!");
-        } else {
-          showToast("Fail add product to cart!");
-        }
-      } catch (err) {
-        console.error("Error adding to cart:", err);
+        showToast("Product added to cart!");
+      } else {
+        showToast("Failed to add product to cart!");
       }
+    } catch (err) {
+      console.error("Error adding to cart:", err);
     }
-    function showToast(message) {
-      const toast = document.getElementById("toast");
-      toast.textContent = message;
-      toast.classList.remove("hidden");
-      toast.classList.add("show");
+  };
 
-      setTimeout(() => {
-        toast.classList.remove("show");
-        toast.classList.add("hidden");
-      }, 3000); // Hide after 3 seconds
-    }
-  </script>
-</html>
+  function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.remove("hidden");
+    toast.classList.add("show");
+
+    setTimeout(() => {
+      toast.classList.remove("show");
+      toast.classList.add("hidden");
+    }, 3000);
+  }
+</script>

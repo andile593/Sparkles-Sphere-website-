@@ -1,58 +1,38 @@
-// controllers/cartController.js
 const Product = require("../models/productModel");
 
-/**
- * 🛒 Add product to cart
- */
+// Add or update cart item
 const addToCart = async (req, res) => {
   try {
     const productId = req.params.id;
-
-    // Ensure product exists
     const product = await Product.findById(productId);
-    if (!product) {
-      return res.status(404).json({ message: "Product not found" });
-    }
+    if (!product) return res.status(404).json({ message: "Product not found" });
 
-    // Init cart if missing
-    if (!req.session.cart) {
-      req.session.cart = [];
-    }
+    if (!req.session.cart) req.session.cart = [];
 
-    // Check if already exists
     const existingItem = req.session.cart.find(
-      (item) => item.productId.toString() === productId
+      item => item.productId.toString() === productId
     );
 
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      req.session.cart.push({ productId, quantity: 1 });
-    }
+    if (existingItem) existingItem.quantity += 1;
+    else req.session.cart.push({ productId, quantity: 1 });
 
-    req.session.save((err) => {
-      if (err) {
-        console.error("Session save error:", err);
-        return res.status(500).json({ message: "Failed to save cart" });
-      }
-      return res.json({ message: "Product added to cart", cart: req.session.cart });
+    req.session.save(err => {
+      if (err) return res.status(500).json({ message: "Failed to save cart" });
+      res.json({ cart: req.session.cart });
     });
   } catch (err) {
-    console.error("Error adding to cart:", err);
+    console.error(err);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
-/**
- * 📦 Get cart and render cart page
- */
+// Get cart page
 const getCartData = async (req, res) => {
   try {
-    if (!req.session.cart) {
-      req.session.cart = [];
-    }
-
+    if (!req.session.cart) req.session.cart = [];
     const cartItems = [];
+    let totalCheckoutAmount = 0;
+
     for (const item of req.session.cart) {
       const product = await Product.findById(item.productId);
       if (product) {
@@ -61,94 +41,73 @@ const getCartData = async (req, res) => {
           title: product.title,
           image: product.image,
           price: product.price,
-          quantity: item.quantity,
+          quantity: item.quantity
         });
+        totalCheckoutAmount += product.price * item.quantity;
       }
     }
 
-    const totalCheckoutAmount = cartItems.reduce(
-      (sum, item) => sum + item.price * item.quantity,
-      0
-    );
-
     res.render("cart", { carts: cartItems, totalCheckoutAmount });
   } catch (err) {
-    console.error("Error fetching cart data:", err);
+    console.error(err);
     res.status(500).send("Something went wrong while loading cart");
   }
 };
 
-/**
- * ✏️ Update quantity of cart item
- */
-const updateCart = (req, res) => {
+// Update quantity
+const updateCart = async (req, res) => {
   try {
     const { id } = req.params;
     const { quantity } = req.body;
 
-    if (!req.session.cart) {
-      req.session.cart = [];
+    if (!req.session.cart) req.session.cart = [];
+    const item = req.session.cart.find(i => i.productId.toString() === id);
+    if (item) item.quantity = parseInt(quantity) || 1;
+
+    let totalCheckoutAmount = 0;
+    for (const cartItem of req.session.cart) {
+      const product = await Product.findById(cartItem.productId);
+      if (product) totalCheckoutAmount += product.price * cartItem.quantity;
     }
 
-    const item = req.session.cart.find((i) => i.productId.toString() === id);
-    if (item) {
-      item.quantity = parseInt(quantity) || 1;
-    }
+    const totalItems = req.session.cart.reduce((sum, i) => sum + i.quantity, 0);
 
-    const totalCheckoutAmount = req.session.cart.reduce(
-      (sum, i) => sum + i.quantity * 1, // placeholder until we fetch product price
-      0
-    );
-
-    req.session.save((err) => {
-      if (err) {
-        console.error("Session save error:", err);
-        return res.status(500).json({ message: "Failed to update cart" });
-      }
-      return res.json({ cart: item, totalCheckoutAmount });
+    req.session.save(err => {
+      if (err) return res.status(500).json({ message: "Failed to update cart" });
+      res.json({ cart: item, totalCheckoutAmount, totalItems });
     });
   } catch (err) {
-    console.error("Error updating cart:", err);
+    console.error(err);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
-/**
- * ❌ Remove item from cart
- */
-const removeCartData = (req, res) => {
+// Remove item
+const removeCartData = async (req, res) => {
   try {
     const { id } = req.params;
-
-    if (!req.session.cart) {
-      req.session.cart = [];
-    }
+    if (!req.session.cart) req.session.cart = [];
 
     req.session.cart = req.session.cart.filter(
-      (item) => item.productId.toString() !== id
+      item => item.productId.toString() !== id
     );
 
-    const totalCheckoutAmount = req.session.cart.reduce(
-      (sum, i) => sum + i.quantity * 1, // placeholder until fetch product
-      0
-    );
+    let totalCheckoutAmount = 0;
+    for (const cartItem of req.session.cart) {
+      const product = await Product.findById(cartItem.productId);
+      if (product) totalCheckoutAmount += product.price * cartItem.quantity;
+    }
 
-    req.session.save((err) => {
-      if (err) {
-        console.error("Session save error:", err);
-        return res.status(500).json({ message: "Failed to remove item" });
-      }
-      return res.json({ message: "Item removed", totalCheckoutAmount });
+    const totalItems = req.session.cart.reduce((sum, i) => sum + i.quantity, 0);
+
+    req.session.save(err => {
+      if (err) return res.status(500).json({ message: "Failed to remove item" });
+      res.json({ totalCheckoutAmount, totalItems });
     });
   } catch (err) {
-    console.error("Error removing cart item:", err);
+    console.error(err);
     res.status(500).json({ message: "Something went wrong" });
   }
 };
 
-module.exports = {
-  addToCart,
-  getCartData,
-  updateCart,
-  removeCartData,
-};
+module.exports = { addToCart, getCartData, updateCart, removeCartData };
