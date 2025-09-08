@@ -69,26 +69,6 @@ const addProduct = async (req, res) => {
     .catch((err) => {
       console.log(err);
     });
-
-  // if (req.user.role !== "admin") {
-  //   return res
-  //     .status(403)
-  //     .json({ error: "Unauthorized. Only admin can add products." });
-  // }
-
-  // const { title, description, price, category } = req.body;
-
-  // const image = req.file ? req.file.path : null;
-
-  // const products = await Product.create({
-  //   title,
-  //   image,
-  //   description,
-  //   price,
-  //   category,
-  // });
-
-  // res.redirect("/products");
 };
 
 // delete a product(Admin)
@@ -143,10 +123,10 @@ const adminDashboard = async (req, res) => {
         user: [userId],
         ...restOfOrder
       } = order;
-      
+
 
       const customer = await User.findById(userId);
-      
+
       const orderWithUser = { ...restOfOrder, userEmail: customer.email };
       ordersWithUser.push(orderWithUser);
     }

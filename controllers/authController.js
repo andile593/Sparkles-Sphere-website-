@@ -2,7 +2,7 @@ const User = require("../models/userModel");
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
-
+const Cart = require("../models/cartModel");
 
 const handleErrors = (err) => {
   console.log(err.message, err.code);
@@ -77,20 +77,54 @@ module.exports.login_post = async (req, res) => {
     const user = await User.login(email, password);
     const token = createToken(user._id);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+
+    // merge guest cart into DB here
+    if (req.session.cart && req.session.cart.length > 0) {
+      for (const item of req.session.cart) {
+        let dbCartItem = await Cart.findOne({ user: user._id, productId: item.productId });
+
+        if (dbCartItem) {
+          dbCartItem.quantity += item.quantity;
+          dbCartItem.totalPrice = dbCartItem.price * dbCartItem.quantity;
+          await dbCartItem.save();
+        } else {
+          await Cart.create({
+            user: user._id,
+            productId: item.productId,
+            title: item.title,
+            price: item.price,
+            image: item.image,
+            quantity: item.quantity,
+            totalPrice: item.price * item.quantity,
+          });
+        }
+      }
+    }
+
+    // reload cart from DB into session
+    const dbCart = await Cart.find({ user: user._id });
+    req.session.cart = dbCart.map(i => ({
+      productId: i.productId.toString(),
+      title: i.title,
+      price: i.price,
+      image: i.image,
+      quantity: i.quantity,
+    }));
+    await req.session.save();
+
     res.status(200).json({ user: user._id });
   } 
   catch (err) {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
+};
 
-}
 
 module.exports.logout_get = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
   res.redirect('/');
 }
-
 
 const sendResetEmail = async (email, resetToken) => {
   // Create a Nodemailer transporter

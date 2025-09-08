@@ -6,7 +6,7 @@ const requireAuth = (req, res, next) => {
 
   
   if (token) {
-    jwt.verify(token, 'green bear secret', (err, decodedToken) => {
+    jwt.verify(token, 'sparkles sphere secret', (err, decodedToken) => {
       if (err) {
         console.log(err.message);
         res.redirect('/login');
@@ -35,7 +35,7 @@ const checkRole = (role) => {
 const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(token, 'green bear secret', async (err, decodedToken) => {
+    jwt.verify(token, 'sparkles sphere secret', async (err, decodedToken) => {
       if (err) {
         res.locals.user = null;
         next();

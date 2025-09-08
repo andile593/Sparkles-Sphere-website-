@@ -5,11 +5,15 @@ const {
   getCartData,
   removeCartData,
 } = require("../controllers/cartController"); // only import what exists now
+const {
+  requireAuth,
+  checkUser,
+  checkRole,
+} = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
-// Display the cart (no login required)
-router.get("/cart", getCartData);
+router.get("/cart", checkUser, getCartData);
 
 router.post("/cart/add-to-cart/:id", addToCart);
 
