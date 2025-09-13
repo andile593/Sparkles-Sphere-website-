@@ -281,8 +281,8 @@ p {
 }
 
 .hero-wrap img {
-  width: clamp(19em, 100vw, 90em);
-  height: clamp(25em, 80vh, 38em);
+  width: clamp(19em, 100vw, 95em);
+  height: clamp(25em, 80vh, 40em);
   position: relative;
   z-index: -1;
   object-fit: cover;
@@ -320,7 +320,7 @@ p {
 /* Wwo section */
 .wwo-sec {
   padding: 1em 0;
-  min-height: 24em;
+  height: fit-content;
 }
 
 .icon {
@@ -338,7 +338,7 @@ p {
 }
 
 .intro-wwo > p {
-  width: 90%;
+  width: 100%;
   color: var(--primaryGrey);
   font-size: 13px;
   text-align: center;
@@ -355,7 +355,7 @@ p {
 
 .brief-component {
   max-width: 18em;
-  height: 230px;
+  height: 290px;
   margin: 1em 0;
   padding: 0.5em;
   border-radius: 13px;
@@ -580,6 +580,7 @@ p {
   padding: 1rem;
   transition: box-shadow 0.2s ease;
   cursor: pointer;
+  max-width: 238.6px;
   background-color: #fff;
 }
 
@@ -1706,9 +1707,11 @@ a.prId {
   }
 
   .about-subsec1 {
-    width: 47%;
-    justify-content: left;
+    width: 50%;
+    justify-content: center;
+    align-items: center;
     margin-left: 1em;
+    padding: 0 6em;
   }
 
   .cart-img {
@@ -1721,10 +1724,12 @@ a.prId {
 
   .about-subsec2 {
     width: 50%;
+    display: flex;
+    justify-content: center;
   }
 
   .about-subsec2 img {
-    width: 21em;
+    width: 80%;
   }
 
   .wou-img {
@@ -1842,6 +1847,9 @@ a.prId {
   button.checkout-link {
     margin: 1em 0;
   }
+  .wwo-sec {
+    padding: 2em 0;
+}
 }
 
 @media (min-width: 815px) {
@@ -1889,6 +1897,9 @@ a.prId {
 }
 
 @media (min-width: 63em) {
+  .sub-sec {
+    max-width: 28em;
+  }
   .about-subsec2 img {
     width: 27em;
   }
