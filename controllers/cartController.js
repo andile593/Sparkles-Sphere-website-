@@ -24,6 +24,8 @@ const addToCart = async (req, res) => {
     }
 
     let cartItem;
+    console.log("CartItem:", cartItem);
+    
     if (req.user) {
       cartItem = await Cart.findOne({ user: req.user._id, productId });
 

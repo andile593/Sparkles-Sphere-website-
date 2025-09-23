@@ -60,6 +60,8 @@ module.exports.signup_post = async (req, res) => {
   try {
     const user = await User.create({ email, password });
     const token = createToken(user._id);
+    console.log("token", token);
+    
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     res.status(201).json({ user: user._id });
   }
@@ -77,7 +79,7 @@ module.exports.login_post = async (req, res) => {
     const user = await User.login(email, password);
     const token = createToken(user._id);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
-
+    
     // merge guest cart into DB here
     if (req.session.cart && req.session.cart.length > 0) {
       for (const item of req.session.cart) {

@@ -4,7 +4,8 @@ const {
   updateCart,
   getCartData,
   removeCartData,
-} = require("../controllers/cartController"); // only import what exists now
+} = require("../controllers/cartController");
+
 const {
   requireAuth,
   checkUser,
@@ -16,7 +17,6 @@ const router = express.Router();
 router.get("/cart", checkUser, getCartData);
 
 router.post("/cart/add-to-cart/:id", addToCart);
-
 
 router.post("/cart/remove/:id", removeCartData);
 

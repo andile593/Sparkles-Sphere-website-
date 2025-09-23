@@ -169,6 +169,11 @@ p {
   text-align: center;
 }
 
+.form-cover {
+    display: flex;
+    justify-content: center;
+}
+
 .signupForm {
   width: 100%;
   max-width: 600px;
