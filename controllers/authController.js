@@ -40,7 +40,7 @@ const handleErrors = (err) => {
 // create json web token
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-  return jwt.sign({ id }, 'green bear secret', {
+  return jwt.sign({ id }, 'sparkles sphere secret', {
     expiresIn: maxAge
   });
 };
@@ -78,6 +78,7 @@ module.exports.login_post = async (req, res) => {
   try {
     const user = await User.login(email, password);
     const token = createToken(user._id);
+    console.log("token", token);
     res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
     
     // merge guest cart into DB here
