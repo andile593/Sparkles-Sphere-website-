@@ -1,7 +1,6 @@
 {
-  "name": "green-bear-site",
+  "name": "Sparkles-sphere-site",
   "version": "1.0.0",
-  "main": "main.js",
   "scripts": {
     "start": "node server.js"
   },
